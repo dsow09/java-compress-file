@@ -8,8 +8,8 @@ public class SendFileCompressor {
         System.out.println("Usage: java SenFileCompressor [options] [files]");
         System.out.println("Options:");
         System.out.println("  -h\t Permet d'afficher un message d'aide");
-        System.out.println("  -c\t Permet de Compresser un fichier en .sfc");
-        System.out.println("  -d\t Permet de Decompress un fichier compresser en  .sfc");
+        System.out.println("  -c\t Permet de compresser un fichier en .sfc");
+        System.out.println("  -d\t Permet de decompresser un fichier compresser en  .sfc");
         System.out.println("  -r\t Permet de spécifier la destination");
         System.out.println("  -v\t Concerne la verbosité du programme.");
     }
@@ -44,7 +44,6 @@ public class SendFileCompressor {
             }
             if (args[args.length - 1].equals("-v")) {
                 verbose = true;
-                System.out.println("verbose");
             }
             String[] inputFilesArray = new String[inputFiles.length -1];
             System.arraycopy(inputFiles, 1, inputFilesArray, 0, inputFiles.length -1);
@@ -63,7 +62,7 @@ public class SendFileCompressor {
             String outputFilename = "./decompress";
             decompressFiles(archivePath, outputFilename);
         } else {
-            System.err.println("Invalid option: " + args[0]);
+            System.err.println("Option invalide : " + args[0]);
             printHelp();
         }
     }
@@ -122,7 +121,7 @@ public class SendFileCompressor {
             
                     entry = zis.getNextEntry();
                 }
-                System.out.println("Les fichiers ont été décompressés avec succès dans le fichier " + outputPath);
+                System.out.println("Les fichiers ont été décompressés avec succès dans le dossier " + outputPath);
             }
             catch (IOException e) {
                 System.out.println("Une erreur est survenue lors de la décompression des fichiers : " + e.getMessage());
