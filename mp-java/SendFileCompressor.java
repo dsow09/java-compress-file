@@ -5,13 +5,10 @@ public class SendFileCompressor {
     private static final int BUFFER_SIZE = 4096; // Taille du buffer
 
     private static void printHelp() {
-        System.out.println("Usage: java SenFileCompressor [options] [files]");
-        System.out.println("Options:");
-        System.out.println("  -h\t Permet d'afficher un message d'aide");
-        System.out.println("  -c\t Permet de compresser un fichier en .sfc");
-        System.out.println("  -d\t Permet de decompresser un fichier compresser en  .sfc");
-        System.out.println("  -r\t Permet de spécifier la destination");
-        System.out.println("  -v\t Concerne la verbosité du programme.");
+        System.out.println("Utilisation: java SenFileCompressor [options] [liste_fichiers]");
+        System.out.println("L'option -h: \t Permet d'afficher un message d'aide");
+        System.out.println("L'option -c: \t Permet de compresser un ensemble de fichiers");
+        System.out.println("L'option -d: \t Permet de décompresser un fichier compressé");
     }
 
     public static void main(String[] args) throws IOException
@@ -19,40 +16,17 @@ public class SendFileCompressor {
         if (args.length == 0 || args[0].equals("-h")) {
             printHelp();
         } else if (args[0].equals("-c")) {
-            boolean verbose = false;
-            String outputDir = "";
-            boolean forceOutputDirCreation = false;
             String[] inputFiles = args;
             if (args.length < 2) {
                 System.out.println("Aucun fichier à compresser n'a été spécifié.");
                 System.exit(1);
             }
             String outputFile = "fichier.sfc";
-            if (args.length >= 4 && args[args.length - 2].equals("-r")) {
-                outputDir = args[args.length - 1];
-                if (args[args.length - 3].equals("-f")) {
-                    forceOutputDirCreation = true;
-                }
-                if (!new File(outputDir).exists() && !forceOutputDirCreation) {
-                    System.out.println("Erreur : le répertoire de sortie spécifié n'existe pas.");
-                    System.exit(1);
-                } else if (!new File(outputDir).exists() && forceOutputDirCreation) {
-                    new File(outputDir).mkdirs();
-                }
-            } else if (args.length >= 3) {
-                outputDir = ".";
-            }
-            if (args[args.length - 1].equals("-v")) {
-                verbose = true;
-            }
             String[] inputFilesArray = new String[inputFiles.length -1];
             System.arraycopy(inputFiles, 1, inputFilesArray, 0, inputFiles.length -1);
           
             try {
                 compressFiles(inputFilesArray, outputFile);
-                if (verbose) {
-                    System.out.println("Fichier compressé créé : " + outputFile);
-                }
             } catch (IOException e) {
                 System.out.println("Erreur lors de la compression des fichiers : " + e.getMessage());
             }
@@ -62,12 +36,12 @@ public class SendFileCompressor {
             String outputFilename = "./decompress";
             decompressFiles(archivePath, outputFilename);
         } else {
-            System.err.println("Option invalide : " + args[0]);
+            System.err.println("Erreur option invalide : " + args[0]);
             printHelp();
         }
     }
 
-    // Methode de compression des fichiers
+    // Methode de compression de fichiers
     public static void compressFiles(String[] files, String outputFilename) throws IOException {
         try {
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -93,7 +67,7 @@ public class SendFileCompressor {
         }
     }
 
-    // Décompression des fichiers
+    // Methode de Décompression des fichiers
     public static void decompressFiles(String archivePath, String outputPath) throws IOException {
             File archiveFile = new File(archivePath);
             File outputDir = new File(outputPath);
